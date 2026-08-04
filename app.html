@@ -4207,22 +4207,110 @@
                     <img src="${HERO_IMAGE}" alt="مستر زياد مبروك" loading="eager" fetchpriority="high" onerror="this.style.display='none'" style="width:100%;height:auto;max-height:450px;object-fit:cover;display:block;aspect-ratio:16/7;">
                 </div>
 
-                <!-- ====== شريط تثبيت PWA ====== -->
-                <div id="pwaInstallBanner">
-                    <div class="banner-content">
-                        <img src="${LOGO_IMAGE}" alt="يلا كيمياء">
-                        <div class="banner-text">
-                            <div class="title">📲 ثبّت تطبيق يلا كيمياء على جهازك الآن</div>
-                            <div class="desc">ذاكر في أي وقت مباشرة من الشاشة الرئيسية بدون فتح المتصفح</div>
-                        </div>
-                    </div>
-                    <div class="banner-actions">
-                        <button class="install-now-btn" onclick="installApp()">
-                            📲 حمل التطبيق الآن
-                        </button>
-                        <span class="blink-dot"></span>
-                    </div>
-                </div>
+               // ============================================================
+// 🔥 زر التثبيت الضخم والواضح - بيظهر دايماً
+// ============================================================
+
+// إظهار زر التثبيت فوراً عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    const installBtn = document.getElementById('installAppBtn');
+    const banner = document.getElementById('pwaInstallBanner');
+    
+    // إظهار الزر والبanner دائماً
+    if (installBtn) {
+        installBtn.style.display = 'flex';
+        installBtn.style.fontSize = '1.1rem';
+        installBtn.style.padding = '12px 24px';
+        installBtn.innerHTML = '<i class="fas fa-download" style="font-size:1.3rem;"></i> 📲 حمل التطبيق الآن';
+        installBtn.style.animation = 'pulse-install 1.5s infinite';
+        installBtn.style.boxShadow = '0 0 30px rgba(255, 214, 10, 0.3)';
+    }
+    
+    if (banner) {
+        banner.style.display = 'flex';
+        banner.classList.add('visible');
+        banner.style.border = '3px solid var(--gold)';
+        banner.style.background = 'linear-gradient(135deg, #0B4F8C, #1a365d)';
+    }
+});
+
+// إضافة زر تثبيت كبير في وسط الصفحة (عشان يبان قوي)
+function addBigInstallButton() {
+    const main = document.getElementById('mainContent');
+    if (!main) return;
+    
+    // نتأكد إن الزر مش موجود قبل كده
+    if (document.getElementById('bigInstallBtn')) return;
+    
+    const bigBtn = document.createElement('div');
+    bigBtn.id = 'bigInstallBtn';
+    bigBtn.style.cssText = `
+        text-align: center;
+        margin: 10px auto 20px;
+        padding: 0 20px;
+        max-width: 1280px;
+    `;
+    bigBtn.innerHTML = `
+        <button onclick="APP.installApp()" style="
+            background: linear-gradient(135deg, #FFD60A, #F59E0B);
+            color: #081B2C;
+            border: none;
+            padding: 18px 48px;
+            border-radius: 60px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(255, 214, 10, 0.5);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            animation: pulse-install 2s infinite;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        " 
+        onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 12px 48px rgba(255,214,10,0.7)';"
+        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 32px rgba(255,214,10,0.5)';">
+            <i class="fas fa-download" style="font-size:1.8rem;"></i>
+            📲 ثبّت التطبيق على جهازك الآن
+            <span style="background:#EF4444;color:#fff;padding:2px 12px;border-radius:20px;font-size:0.8rem;animation:blinkPulse 1.2s infinite;">جديد</span>
+        </button>
+        <p style="font-size:0.8rem;color:var(--text2);margin-top:6px;">
+            <i class="fas fa-check-circle" style="color:var(--success);"></i> متوافق مع جميع الأجهزة (Android - iPhone - كمبيوتر)
+        </p>
+    `;
+    
+    // نحط الزر بعد الـ hero مباشرة
+    const hero = document.querySelector('.hero-image-container');
+    if (hero && hero.parentNode) {
+        hero.parentNode.insertBefore(bigBtn, hero.nextSibling);
+    } else {
+        // لو مش لاقي الهيرو، نحطه في أول الـ main
+        main.insertBefore(bigBtn, main.firstChild);
+    }
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+setTimeout(addBigInstallButton, 1000);
+
+// إضافة ستايلات إضافية للزر
+const style = document.createElement('style');
+style.textContent = `
+    #bigInstallBtn button {
+        animation: pulse-install 2s infinite !important;
+    }
+    @keyframes pulse-install {
+        0%, 100% { box-shadow: 0 8px 32px rgba(255, 214, 10, 0.5); }
+        50% { box-shadow: 0 8px 48px rgba(255, 214, 10, 0.8); }
+    }
+    @keyframes blinkPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.95); }
+    }
+`;
+document.head.appendChild(style);
+
+console.log('🔥 زر التثبيت الضخم ظهر بنجاح!');
                 
                 <div class="video-section-title">تفاصيل بداية المنهج وتفاصيل المنصة | خطة الكيمياء الكاملة لطلاب دفعة 2027 مع مستر زياد مبروك</div>
                 
