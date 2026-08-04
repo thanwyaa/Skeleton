@@ -2053,8 +2053,10 @@
     }
 
     // ============================================================
-    // PWA - تحميل التطبيق (الكود الجديد)
+    // PWA - تحميل التطبيق (الكود الجديد المعدل)
     // ============================================================
+    
+    // التحقق من حالة التثبيت
     function checkPWAStatus() {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
                              window.navigator.standalone === true;
@@ -2066,6 +2068,7 @@
         return false;
     }
 
+    // إظهار أزرار التثبيت
     function showInstallButtons() {
         const banner = document.getElementById('pwaInstallBanner');
         if (banner) {
@@ -2078,6 +2081,7 @@
         }
     }
 
+    // إخفاء أزرار التثبيت
     function hideInstallButtons() {
         const banner = document.getElementById('pwaInstallBanner');
         if (banner) {
@@ -2090,23 +2094,13 @@
         }
     }
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        showInstallButtons();
-    });
-
-    window.addEventListener('appinstalled', () => {
-        hideInstallButtons();
-        showToast('✅ تم تثبيت التطبيق بنجاح!', 'success');
-    });
-
+    // دالة التثبيت الرئيسية
     function installApp() {
         if (deferredPrompt) {
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then((choiceResult) => {
                 if (choiceResult.outcome === 'accepted') {
-                    showToast('✅ تم تثبيت التطبيق!', 'success');
+                    showToast('✅ تم تثبيت التطبيق بنجاح!', 'success');
                     hideInstallButtons();
                 } else {
                     showToast('تم إلغاء تثبيت التطبيق', 'info');
@@ -2114,11 +2108,12 @@
                 deferredPrompt = null;
             });
         } else {
-            showToast('📱 يمكنك تثبيت التطبيق من خلال قائمة المتصفح', 'info');
+            // إذا لم يكن beforeinstallprompt متاحاً، نعرض تعليمات التثبيت
             showInstallHelp();
         }
     }
 
+    // عرض تعليمات التثبيت
     function showInstallHelp() {
         const helpModal = document.createElement('div');
         helpModal.style.cssText = `
@@ -2153,6 +2148,21 @@
         `;
         document.body.appendChild(helpModal);
     }
+
+    // ====== ربط أحداث PWA ======
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        // إظهار الأزرار عند توفر التثبيت
+        showInstallButtons();
+        console.log('✅ beforeinstallprompt triggered - PWA install available');
+    });
+
+    window.addEventListener('appinstalled', () => {
+        hideInstallButtons();
+        showToast('✅ تم تثبيت التطبيق بنجاح!', 'success');
+        console.log('✅ App installed successfully');
+    });
 
     // التحقق الدوري من حالة التثبيت
     setInterval(() => {
@@ -4569,7 +4579,7 @@
         openImageZoom,
         closeImageZoom,
         showToast,
-        installApp,
+        installApp,  // ← تم إضافة الدالة هنا
         toggleFullscreen,
         showAdminPopup,
         closeAdminPopup,
