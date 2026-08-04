@@ -45,7 +45,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
-    <!-- ====== كل الـ CSS من الكود الأصلي ====== -->
     <style>
         :root {
             --bg: #EAF6FF;
@@ -1231,7 +1230,6 @@
         .toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 90%; max-width: 500px; pointer-events: none; }
         .toast { pointer-events: auto; }
 
-        /* ====== نافذة الإعلان ====== */
         #adminPopup {
             position: fixed;
             inset: 0;
@@ -1310,7 +1308,6 @@
             transition: var(--transition);
         }
 
-        /* ====== الأسئلة الشائعة ====== */
         .faq-item {
             border: 1px solid var(--border);
             border-radius: var(--radius);
@@ -1401,7 +1398,6 @@
             font-weight: 700;
         }
 
-        /* ====== شريط تثبيت PWA ====== */
         #pwaInstallBanner {
             display: none;
             background: linear-gradient(135deg, #0B4F8C, #1E81CE);
@@ -1579,14 +1575,13 @@
     </style>
 </head>
 <body>
-    <!-- ====== كل الـ HTML من الكود الأصلي ====== -->
-    <!-- ====== Toast Container ====== -->
+    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- ====== Back to Top ====== -->
+    <!-- Back to Top -->
     <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</button>
 
-    <!-- ====== Login Overlay ====== -->
+    <!-- Login Overlay -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
             <div class="icon"><i class="fas fa-lock"></i></div>
@@ -1600,7 +1595,7 @@
         </div>
     </div>
 
-    <!-- ====== Completed Modal ====== -->
+    <!-- Completed Modal -->
     <div class="completed-modal" id="completedModal">
         <div class="modal-box">
             <div class="icon">✅</div>
@@ -1610,7 +1605,7 @@
         </div>
     </div>
 
-    <!-- ====== Exam Security Modal ====== -->
+    <!-- Exam Security Modal -->
     <div class="exam-security-modal" id="examSecurityModal">
         <div class="security-box">
             <div class="icon">📜</div>
@@ -1637,13 +1632,13 @@
         </div>
     </div>
 
-    <!-- ====== Image Zoom Overlay ====== -->
+    <!-- Image Zoom Overlay -->
     <div class="quiz-image-overlay" id="imageOverlay" onclick="APP.closeImageZoom()" style="position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:none;align-items:center;justify-content:center;cursor:pointer;">
         <div style="position:absolute;top:20px;right:20px;color:#fff;font-size:2rem;cursor:pointer;background:rgba(255,255,255,0.1);width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.3s;">✕</div>
         <img id="zoomedImage" src="" alt="تكبير الصورة" style="max-width:90%;max-height:90%;object-fit:contain;border-radius:var(--radius);">
     </div>
 
-    <!-- ====== Exam Blur Overlay ====== -->
+    <!-- Exam Blur Overlay -->
     <div class="exam-blur-overlay" id="examBlurOverlay">
         <div>
             <i class="fas fa-exclamation-triangle" style="font-size:3rem;display:block;margin-bottom:12px;"></i>
@@ -1652,7 +1647,7 @@
         </div>
     </div>
 
-    <!-- ====== نافذة الإعلان (مخفية) ====== -->
+    <!-- Admin Popup -->
     <div id="adminPopup">
         <div class="admin-popup-content">
             <button onclick="APP.closeAdminPopup()" class="close-btn">✕</button>
@@ -1696,7 +1691,7 @@
                     <i class="fas fa-download"></i> حمل التطبيق
                 </button>
 
-                <!-- زر الليل والنهار المحسن -->
+                <!-- زر الليل والنهار -->
                 <button class="theme-toggle" onclick="APP.toggleTheme()" aria-label="تغيير المظهر">
                     <span class="slider">🌙</span>
                 </button>
@@ -1762,49 +1757,38 @@
         </div>
     </footer>
 
-    <!-- ====== كل الـ JavaScript من الكود الأصلي ====== -->
     <script>
     // ============================================================
-    // 🔒 SYSTEM PROTECTION - الحماية الشاملة
+    // 🔒 SYSTEM PROTECTION
     // ============================================================
     (function() {
         'use strict';
         
-        // 1. منع view-source و Ctrl+U
         if (window.location.protocol === 'view-source:') {
             window.location.href = window.location.href.replace('view-source:', '');
         }
         
         document.addEventListener('keydown', function(e) {
-            // منع Ctrl+U
             if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
                 e.preventDefault();
                 e.stopPropagation();
                 showToast('🚫 عرض المصدر غير مسموح', 'warning');
                 return false;
             }
-            
-            // منع F12
             if (e.key === 'F12') {
                 e.preventDefault();
                 e.stopPropagation();
                 showToast('🚫 أدوات المطور غير مسموحة', 'warning');
                 return false;
             }
-            
-            // منع Ctrl+Shift+I/J/C
             if (e.ctrlKey && e.shiftKey) {
-                if (e.key === 'I' || e.key === 'i' || 
-                    e.key === 'J' || e.key === 'j' || 
-                    e.key === 'C' || e.key === 'c') {
+                if (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c') {
                     e.preventDefault();
                     e.stopPropagation();
                     showToast('🚫 غير مسموح', 'warning');
                     return false;
                 }
             }
-            
-            // منع Ctrl+T و Ctrl+N
             if (e.ctrlKey && (e.key === 't' || e.key === 'T' || e.key === 'n' || e.key === 'N')) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1813,9 +1797,7 @@
             }
         });
         
-        // 2. منع النقر الأيمن
         document.addEventListener('contextmenu', function(e) {
-            // السماح في الحقول والأزرار والروابط
             const allowed = e.target.closest('input, textarea, select, button, a');
             if (!allowed) {
                 e.preventDefault();
@@ -1825,7 +1807,6 @@
             }
         });
         
-        // 3. منع النسخ من الفيديو
         document.addEventListener('copy', function(e) {
             if (document.querySelector('.video-protected')) {
                 e.preventDefault();
@@ -1835,26 +1816,21 @@
             }
         });
         
-        // 4. إخفاء الكونسول
         const noop = () => {};
         const consoleMethods = ['log', 'info', 'warn', 'error', 'debug', 'trace', 'dir', 'dirxml', 'group', 'groupEnd', 'time', 'timeEnd', 'count', 'assert', 'profile', 'profileEnd', 'table'];
         consoleMethods.forEach(method => {
             console[method] = noop;
         });
         
-        // 5. منع eval
         const originalEval = window.eval;
         window.eval = function(code) {
-            if (code.includes('view-source') || 
-                code.includes('outerHTML') || 
-                code.includes('document.documentElement')) {
+            if (code.includes('view-source') || code.includes('outerHTML') || code.includes('document.documentElement')) {
                 showToast('🚫 هذا الأمر غير مسموح', 'error');
                 return null;
             }
             return originalEval(code);
         };
         
-        // 6. مراقبة الـ URL
         let lastUrl = window.location.href;
         setInterval(() => {
             if (window.location.href !== lastUrl) {
@@ -1890,7 +1866,7 @@
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
     // ============================================================
-    // دالة الـ Toast
+    // TOAST FUNCTION
     // ============================================================
     function showToast(msg, type = 'success') {
         const container = document.getElementById('toastContainer');
@@ -1902,9 +1878,6 @@
         setTimeout(() => el.remove(), 3500);
     }
 
-    // ============================================================
-    // دالة فتح وإغلاق الأسئلة الشائعة
-    // ============================================================
     function toggleFaq(element) {
         const parent = element.parentElement;
         parent.classList.toggle('open');
@@ -2053,14 +2026,11 @@
     }
 
     // ============================================================
-    // PWA - تحميل التطبيق (الكود الجديد المعدل)
+    // PWA FUNCTIONS
     // ============================================================
-    
-    // التحقق من حالة التثبيت
     function checkPWAStatus() {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
                              window.navigator.standalone === true;
-        
         if (isStandalone) {
             hideInstallButtons();
             return true;
@@ -2068,7 +2038,6 @@
         return false;
     }
 
-    // إظهار أزرار التثبيت
     function showInstallButtons() {
         const banner = document.getElementById('pwaInstallBanner');
         if (banner) {
@@ -2081,7 +2050,6 @@
         }
     }
 
-    // إخفاء أزرار التثبيت
     function hideInstallButtons() {
         const banner = document.getElementById('pwaInstallBanner');
         if (banner) {
@@ -2094,7 +2062,6 @@
         }
     }
 
-    // دالة التثبيت الرئيسية
     function installApp() {
         if (deferredPrompt) {
             deferredPrompt.prompt();
@@ -2108,12 +2075,10 @@
                 deferredPrompt = null;
             });
         } else {
-            // إذا لم يكن beforeinstallprompt متاحاً، نعرض تعليمات التثبيت
             showInstallHelp();
         }
     }
 
-    // عرض تعليمات التثبيت
     function showInstallHelp() {
         const helpModal = document.createElement('div');
         helpModal.style.cssText = `
@@ -2149,11 +2114,9 @@
         document.body.appendChild(helpModal);
     }
 
-    // ====== ربط أحداث PWA ======
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        // إظهار الأزرار عند توفر التثبيت
         showInstallButtons();
         console.log('✅ beforeinstallprompt triggered - PWA install available');
     });
@@ -2164,12 +2127,10 @@
         console.log('✅ App installed successfully');
     });
 
-    // التحقق الدوري من حالة التثبيت
     setInterval(() => {
         checkPWAStatus();
     }, 5000);
 
-    // تسجيل Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/service-worker.js')
@@ -2183,7 +2144,7 @@
     }
 
     // ============================================================
-    // THEME - الوضع الليلي/النهاري المتكامل
+    // THEME
     // ============================================================
     function applyTheme(isDark) {
         document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
@@ -2217,7 +2178,7 @@
     }
 
     // ============================================================
-    // FULLSCREEN - تكبير الحصة
+    // FULLSCREEN
     // ============================================================
     function toggleFullscreen() {
         const container = document.getElementById('videoContainer');
@@ -2279,7 +2240,7 @@
     });
 
     // ============================================================
-    // ADMIN POPUP - الإعلان
+    // ADMIN POPUP
     // ============================================================
     function showAdminPopup() {
         const popup = document.getElementById('adminPopup');
@@ -2849,14 +2810,10 @@
         videoWatchStartTime = null;
     }
 
-    // ============================================================
-    // حماية الفيديو المتكاملة
-    // ============================================================
     function protectVideoPlayer() {
         const videoContainer = document.getElementById('videoContainer');
         if (!videoContainer) return;
         
-        // منع النقر الأيمن
         videoContainer.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -2864,13 +2821,11 @@
             return false;
         });
         
-        // منع السحب
         videoContainer.addEventListener('dragstart', function(e) {
             e.preventDefault();
             return false;
         });
         
-        // منع النسخ
         videoContainer.addEventListener('copy', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -2878,13 +2833,11 @@
             return false;
         });
         
-        // منع تحديد النص
         videoContainer.style.userSelect = 'none';
         videoContainer.style.webkitUserSelect = 'none';
         videoContainer.style.mozUserSelect = 'none';
         videoContainer.style.msUserSelect = 'none';
         
-        // حماية الـ iframe
         const iframe = document.getElementById('videoFrame');
         if (iframe) {
             iframe.addEventListener('contextmenu', function(e) {
@@ -2893,13 +2846,12 @@
                 showToast('🚫 غير مسموح', 'warning');
                 return false;
             });
-            
             iframe.style.pointerEvents = 'none';
         }
     }
 
     // ============================================================
-    // LESSON VIDEO - محمي بالكامل
+    // LESSON VIDEO
     // ============================================================
     async function openLessonVideo(lessonId) {
         if (!currentUser) { showLoginOverlay(); return; }
@@ -3004,12 +2956,10 @@
             `;
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // حماية الفيديو
             setTimeout(() => {
                 protectVideoPlayer();
             }, 1000);
 
-            // تحريك العلامة المائية
             setTimeout(() => {
                 const container = document.getElementById('videoContainer');
                 const dynamicWM = document.getElementById('dynamicWatermark');
@@ -3027,7 +2977,6 @@
                 }
             }, 500);
 
-            // تتبع وقت المشاهدة
             let watchSeconds = 0;
             const lessonDuration = parseInt(lessonData.duration) || 15;
             const totalSeconds = lessonDuration * 60;
@@ -3078,7 +3027,6 @@
         }
     }
 
-    // ===== إكمال مشاهدة الحصة =====
     async function completeLessonWatch(lessonId) {
         try {
             if (userCourseProgress[lessonId]?.watched) return;
@@ -3426,7 +3374,7 @@
     }
 
     // ============================================================
-    // LEADERBOARD - المتصدرين
+    // LEADERBOARD
     // ============================================================
     async function loadLeaderboard() {
         const container = document.getElementById('leaderboardContainer');
@@ -3578,10 +3526,8 @@
     }
 
     // ============================================================
-    // ⭐⭐⭐ باقي الدوال المهمة ⭐⭐⭐
+    // DASHBOARD
     // ============================================================
-
-    // لوحة الطالب Dashboard
     function showDashboard() {
         if (!currentUser) { showLoginOverlay(); return; }
         const main = document.getElementById('mainContent');
@@ -3714,7 +3660,9 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // رفع الصورة
+    // ============================================================
+    // UPLOAD PROFILE PHOTO
+    // ============================================================
     async function uploadProfilePhoto(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -3740,7 +3688,9 @@
         }
     }
 
-    // بنك الأخطاء
+    // ============================================================
+    // ERROR BANK
+    // ============================================================
     async function showErrorBank() {
         if (!currentUser) { showLoginOverlay(); return; }
         const main = document.getElementById('mainContent');
@@ -3791,7 +3741,6 @@
             showToast('حدث خطأ في تحميل الأخطاء', 'error'); }
     }
 
-    // اختبار تصحيح الأخطاء
     async function startErrorExam() {
         if (!currentUser) { showLoginOverlay(); return; }
         try {
@@ -3845,7 +3794,7 @@
     }
 
     // ============================================================
-    // دوال الامتحانات
+    // EXAM FUNCTIONS
     // ============================================================
     let currentExamData = null;
     let examAnswers = {};
@@ -3883,7 +3832,9 @@
         }
     }
 
-    // النتائج
+    // ============================================================
+    // RESULTS
+    // ============================================================
     async function showResults() {
         if (!currentUser) { showLoginOverlay(); return; }
         const main = document.getElementById('mainContent');
@@ -3930,7 +3881,9 @@
             showToast('حدث خطأ في تحميل النتائج', 'error'); }
     }
 
-    // الشهادات، بطاقة الطالب، الإنجازات، تحليل المستوى
+    // ============================================================
+    // CERTIFICATE, STUDENT CARD, ACHIEVEMENTS, AI INSIGHTS
+    // ============================================================
     function showCertificate() {
         if (!currentUser) { showLoginOverlay(); return; }
         const main = document.getElementById('mainContent');
@@ -4176,6 +4129,9 @@
         }
     }
 
+    // ============================================================
+    // PRIVACY & TERMS
+    // ============================================================
     function showPrivacy() {
         const main = document.getElementById('mainContent');
         if (!main) return;
@@ -4198,7 +4154,6 @@
         if (!main) return;
         const isUser = currentUser !== null;
 
-        // التحقق من حالة PWA
         checkPWAStatus();
 
         main.innerHTML = `
@@ -4207,110 +4162,22 @@
                     <img src="${HERO_IMAGE}" alt="مستر زياد مبروك" loading="eager" fetchpriority="high" onerror="this.style.display='none'" style="width:100%;height:auto;max-height:450px;object-fit:cover;display:block;aspect-ratio:16/7;">
                 </div>
 
-               // ============================================================
-// 🔥 زر التثبيت الضخم والواضح - بيظهر دايماً
-// ============================================================
-
-// إظهار زر التثبيت فوراً عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', function() {
-    const installBtn = document.getElementById('installAppBtn');
-    const banner = document.getElementById('pwaInstallBanner');
-    
-    // إظهار الزر والبanner دائماً
-    if (installBtn) {
-        installBtn.style.display = 'flex';
-        installBtn.style.fontSize = '1.1rem';
-        installBtn.style.padding = '12px 24px';
-        installBtn.innerHTML = '<i class="fas fa-download" style="font-size:1.3rem;"></i> 📲 حمل التطبيق الآن';
-        installBtn.style.animation = 'pulse-install 1.5s infinite';
-        installBtn.style.boxShadow = '0 0 30px rgba(255, 214, 10, 0.3)';
-    }
-    
-    if (banner) {
-        banner.style.display = 'flex';
-        banner.classList.add('visible');
-        banner.style.border = '3px solid var(--gold)';
-        banner.style.background = 'linear-gradient(135deg, #0B4F8C, #1a365d)';
-    }
-});
-
-// إضافة زر تثبيت كبير في وسط الصفحة (عشان يبان قوي)
-function addBigInstallButton() {
-    const main = document.getElementById('mainContent');
-    if (!main) return;
-    
-    // نتأكد إن الزر مش موجود قبل كده
-    if (document.getElementById('bigInstallBtn')) return;
-    
-    const bigBtn = document.createElement('div');
-    bigBtn.id = 'bigInstallBtn';
-    bigBtn.style.cssText = `
-        text-align: center;
-        margin: 10px auto 20px;
-        padding: 0 20px;
-        max-width: 1280px;
-    `;
-    bigBtn.innerHTML = `
-        <button onclick="APP.installApp()" style="
-            background: linear-gradient(135deg, #FFD60A, #F59E0B);
-            color: #081B2C;
-            border: none;
-            padding: 18px 48px;
-            border-radius: 60px;
-            font-size: 1.4rem;
-            font-weight: 900;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 8px 32px rgba(255, 214, 10, 0.5);
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            animation: pulse-install 2s infinite;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-        " 
-        onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 12px 48px rgba(255,214,10,0.7)';"
-        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 32px rgba(255,214,10,0.5)';">
-            <i class="fas fa-download" style="font-size:1.8rem;"></i>
-            📲 ثبّت التطبيق على جهازك الآن
-            <span style="background:#EF4444;color:#fff;padding:2px 12px;border-radius:20px;font-size:0.8rem;animation:blinkPulse 1.2s infinite;">جديد</span>
-        </button>
-        <p style="font-size:0.8rem;color:var(--text2);margin-top:6px;">
-            <i class="fas fa-check-circle" style="color:var(--success);"></i> متوافق مع جميع الأجهزة (Android - iPhone - كمبيوتر)
-        </p>
-    `;
-    
-    // نحط الزر بعد الـ hero مباشرة
-    const hero = document.querySelector('.hero-image-container');
-    if (hero && hero.parentNode) {
-        hero.parentNode.insertBefore(bigBtn, hero.nextSibling);
-    } else {
-        // لو مش لاقي الهيرو، نحطه في أول الـ main
-        main.insertBefore(bigBtn, main.firstChild);
-    }
-}
-
-// استدعاء الدالة عند تحميل الصفحة
-setTimeout(addBigInstallButton, 1000);
-
-// إضافة ستايلات إضافية للزر
-const style = document.createElement('style');
-style.textContent = `
-    #bigInstallBtn button {
-        animation: pulse-install 2s infinite !important;
-    }
-    @keyframes pulse-install {
-        0%, 100% { box-shadow: 0 8px 32px rgba(255, 214, 10, 0.5); }
-        50% { box-shadow: 0 8px 48px rgba(255, 214, 10, 0.8); }
-    }
-    @keyframes blinkPulse {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.5; transform: scale(0.95); }
-    }
-`;
-document.head.appendChild(style);
-
-console.log('🔥 زر التثبيت الضخم ظهر بنجاح!');
+                <!-- ====== شريط تثبيت PWA ====== -->
+                <div id="pwaInstallBanner">
+                    <div class="banner-content">
+                        <img src="${LOGO_IMAGE}" alt="يلا كيمياء">
+                        <div class="banner-text">
+                            <div class="title">📲 ثبّت تطبيق يلا كيمياء على جهازك الآن</div>
+                            <div class="desc">ذاكر في أي وقت مباشرة من الشاشة الرئيسية بدون فتح المتصفح</div>
+                        </div>
+                    </div>
+                    <div class="banner-actions">
+                        <button class="install-now-btn" onclick="installApp()">
+                            📲 حمل التطبيق الآن
+                        </button>
+                        <span class="blink-dot"></span>
+                    </div>
+                </div>
                 
                 <div class="video-section-title">تفاصيل بداية المنهج وتفاصيل المنصة | خطة الكيمياء الكاملة لطلاب دفعة 2027 مع مستر زياد مبروك</div>
                 
@@ -4625,6 +4492,83 @@ console.log('🔥 زر التثبيت الضخم ظهر بنجاح!');
     if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
 
     // ============================================================
+    // 🔥 زر التثبيت الضخم - بيظهر دايماً (هنا مكانه الصحيح)
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const installBtn = document.getElementById('installAppBtn');
+        const banner = document.getElementById('pwaInstallBanner');
+        
+        if (installBtn) {
+            installBtn.style.display = 'flex';
+            installBtn.style.fontSize = '1.1rem';
+            installBtn.style.padding = '12px 24px';
+            installBtn.innerHTML = '<i class="fas fa-download" style="font-size:1.3rem;"></i> 📲 حمل التطبيق الآن';
+            installBtn.style.animation = 'pulse-install 1.5s infinite';
+            installBtn.style.boxShadow = '0 0 30px rgba(255, 214, 10, 0.3)';
+        }
+        
+        if (banner) {
+            banner.style.display = 'flex';
+            banner.classList.add('visible');
+            banner.style.border = '3px solid var(--gold)';
+            banner.style.background = 'linear-gradient(135deg, #0B4F8C, #1a365d)';
+        }
+    });
+
+    function addBigInstallButton() {
+        const main = document.getElementById('mainContent');
+        if (!main) return;
+        if (document.getElementById('bigInstallBtn')) return;
+        
+        const bigBtn = document.createElement('div');
+        bigBtn.id = 'bigInstallBtn';
+        bigBtn.style.cssText = `
+            text-align: center;
+            margin: 10px auto 20px;
+            padding: 0 20px;
+            max-width: 1280px;
+        `;
+        bigBtn.innerHTML = `
+            <button onclick="APP.installApp()" style="
+                background: linear-gradient(135deg, #FFD60A, #F59E0B);
+                color: #081B2C;
+                border: none;
+                padding: 18px 48px;
+                border-radius: 60px;
+                font-size: 1.4rem;
+                font-weight: 900;
+                font-family: 'Cairo', sans-serif;
+                cursor: pointer;
+                box-shadow: 0 8px 32px rgba(255, 214, 10, 0.5);
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 14px;
+                animation: pulse-install 2s infinite;
+                border: 3px solid rgba(255, 255, 255, 0.3);
+            " 
+            onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 12px 48px rgba(255,214,10,0.7)';"
+            onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 32px rgba(255,214,10,0.5)';">
+                <i class="fas fa-download" style="font-size:1.8rem;"></i>
+                📲 ثبّت التطبيق على جهازك الآن
+                <span style="background:#EF4444;color:#fff;padding:2px 12px;border-radius:20px;font-size:0.8rem;animation:blinkPulse 1.2s infinite;">جديد</span>
+            </button>
+            <p style="font-size:0.8rem;color:var(--text2);margin-top:6px;">
+                <i class="fas fa-check-circle" style="color:var(--success);"></i> متوافق مع جميع الأجهزة (Android - iPhone - كمبيوتر)
+            </p>
+        `;
+        
+        const hero = document.querySelector('.hero-image-container');
+        if (hero && hero.parentNode) {
+            hero.parentNode.insertBefore(bigBtn, hero.nextSibling);
+        } else {
+            main.insertBefore(bigBtn, main.firstChild);
+        }
+    }
+
+    setTimeout(addBigInstallButton, 1500);
+
+    // ============================================================
     // APP OBJECT
     // ============================================================
     const APP = {
@@ -4667,7 +4611,7 @@ console.log('🔥 زر التثبيت الضخم ظهر بنجاح!');
         openImageZoom,
         closeImageZoom,
         showToast,
-        installApp,  // ← تم إضافة الدالة هنا
+        installApp,
         toggleFullscreen,
         showAdminPopup,
         closeAdminPopup,
@@ -4686,99 +4630,4 @@ console.log('🔥 زر التثبيت الضخم ظهر بنجاح!');
     window.APP = APP;
     </script>
 </body>
-    // ============================================================
-// 🔥 PWA - التثبيت على جميع الأجهزة (نسخة محسنة)
-// ============================================================
-
-// تسجيل Service Worker تلقائياً
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(function(registration) {
-                console.log('✅ Service Worker تم تسجيله بنجاح');
-                registration.update();
-            })
-            .catch(function(error) {
-                console.warn('⚠️ فشل تسجيل Service Worker:', error);
-            });
-    });
-}
-
-// التحقق من وضع التطبيق
-function isAppInstalled() {
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                         window.navigator.standalone === true;
-    return isStandalone;
-}
-
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    const installBtn = document.getElementById('installAppBtn');
-    const banner = document.getElementById('pwaInstallBanner');
-    
-    if (installBtn) {
-        installBtn.style.display = 'flex';
-        installBtn.innerHTML = '<i class="fas fa-download"></i> حمل التطبيق';
-    }
-    if (banner) {
-        banner.style.display = 'flex';
-        banner.classList.add('visible');
-    }
-    
-    console.log('✅ beforeinstallprompt تم تشغيله');
-});
-
-function installApp() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                showToast('✅ تم تثبيت التطبيق بنجاح!', 'success');
-                document.getElementById('installAppBtn').style.display = 'none';
-                document.getElementById('pwaInstallBanner').classList.remove('visible');
-            } else {
-                showToast('تم إلغاء التثبيت', 'info');
-            }
-            deferredPrompt = null;
-        });
-    } else {
-        showInstallInstructions();
-    }
-}
-
-function showInstallInstructions() {
-    const instructions = `
-        <div style="position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn 0.3s ease;">
-            <div style="background:var(--card);border-radius:var(--radius-lg);padding:28px 24px;max-width:400px;width:100%;border:2px solid var(--gold);box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-                <div style="font-size:3rem;text-align:center;margin-bottom:8px;">📱</div>
-                <h3 style="font-weight:700;color:var(--text);font-size:1.2rem;text-align:center;margin-bottom:12px;">طريقة تثبيت التطبيق</h3>
-                <div style="text-align:right;line-height:2.2;font-size:0.9rem;color:var(--text2);background:var(--bg);padding:14px;border-radius:var(--radius);">
-                    <p>📌 <strong>على Android (Chrome):</strong></p>
-                    <p>• اضغط على <strong>القائمة (⋮)</strong></p>
-                    <p>• اختر <strong>"تثبيت التطبيق"</strong></p>
-                    <hr style="border-color:var(--border);margin:6px 0;">
-                    <p>📌 <strong>على iPhone (Safari):</strong></p>
-                    <p>• اضغط على <strong>مشاركة (⬆)</strong></p>
-                    <p>• اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong></p>
-                    <hr style="border-color:var(--border);margin:6px 0;">
-                    <p>💻 <strong>على الكمبيوتر (Chrome/Edge):</strong></p>
-                    <p>• اضغط على <strong>علامة +</strong> في شريط العنوان</p>
-                    <p>• اختر <strong>"تثبيت التطبيق"</strong></p>
-                </div>
-                <button onclick="this.parentElement.parentElement.remove()" class="btn-primary" style="width:100%;justify-content:center;margin-top:12px;padding:12px;">
-                    ✅ فهمت
-                </button>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentHTML('beforeend', instructions);
-}
-
-window.installApp = installApp;
-window.isAppInstalled = isAppInstalled;
-
-console.log('🔥 PWA Ready - يلا كيمياء جاهزة للتثبيت على جميع الأجهزة');
 </html>
